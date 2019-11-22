@@ -1,0 +1,163 @@
+#include<iostream>
+using namespace std;
+void buildheap(unsigned long *inp, int *num);
+void delete1(unsigned long *inp, int *sz);
+void insert(unsigned long* number,unsigned long *inp,int*sz);
+int main()
+{  
+    int caset;
+    cin >> caset;
+    long long* result = new long long[caset];
+    for (int k = 0; k < caset; k++)
+    {result[k] = 0;
+    
+        int num;
+       int sum=0;
+        cin >> num;
+        if(num!=1){
+        int size = num;
+        int *sz = &size;
+       unsigned long *inp = new unsigned long[num + 1];
+        for (int i = 1; i <= num; i++)
+        {  
+            cin >> inp[i];
+            sum = sum+inp[i];
+        }
+        buildheap(inp,&num);
+      unsigned long j = -1;
+        while(j!=sum){
+        unsigned long min1 = inp[1];
+        delete1(inp,sz);
+        unsigned long min2 = inp[1];
+        delete1(inp,sz);
+         j = min1+min2;
+        
+        result[k ]= result[k]+j;
+        
+        insert(&j,inp,sz);
+
+        }
+    }
+    else
+    {
+      cin>>  result[k]; 
+    }
+    
+    }
+   for(int i=0;i<caset;i++){
+            cout<<result[i]<<endl;
+        }
+}
+void buildheap(unsigned long *inp, int *num)
+{
+    int p = (*num) / 2;
+    for (int i = p; i >= 1; i--)
+    {
+
+        int temp = i;
+        while (temp <= (*num) / 2)
+        {
+            if (temp * 2 + 1 <= *num)
+            {
+                if (inp[temp] > inp[2 * temp] | inp[temp] > inp[2 * temp + 1])
+                {
+                    if (inp[temp * 2] - inp[temp * 2 + 1] > 0)
+                    {
+                        int u = inp[temp * 2 + 1];
+                        inp[temp * 2 + 1] = inp[temp];
+                        inp[temp] = u;
+                        temp = temp * 2 + 1;
+                    }
+                    else
+                    {
+                        int u = inp[temp * 2];
+                        inp[temp * 2] = inp[temp];
+                        inp[temp] = u;
+                        temp = temp * 2;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+            else
+            {
+                if (inp[temp] > inp[temp * 2])
+                {
+                    int u = inp[temp * 2];
+                    inp[temp * 2] = inp[temp];
+                    inp[temp] = u;
+                    temp = temp * 2;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+    }
+}
+void delete1(unsigned long *inp, int *sz)
+{
+    inp[1] = inp[*sz];
+    (*sz)--;
+    int a = 1;
+    while (a * 2 <= *sz)
+    {
+        if (a * 2 < *sz)
+        {
+            if (inp[a] > inp[a * 2] | inp[a] > inp[a * 2 + 1])
+            {
+                if (inp[a * 2 + 1] < inp[a * 2])
+                {
+                    int u = inp[a * 2 + 1];
+                    inp[a * 2 + 1] = inp[a];
+                    inp[a] = u;
+                    a = a * 2 + 1;
+                }
+                else
+                {
+                    int u = inp[a * 2];
+                    inp[a * 2] = inp[a];
+                    inp[a] = u;
+                    a = a * 2;
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+        else
+        {
+            if (inp[a] > inp[a * 2])
+            {
+                int u = inp[a * 2];
+                inp[a * 2] = inp[a];
+                inp[a] = u;
+                a = a * 2;
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+}
+void insert(unsigned long* number,unsigned long *inp,int*sz){
+       (*sz)++;
+       inp[*sz] = *number;
+       int a = *sz;
+       while(a>1){
+           if(inp[a]<inp[a/2]){
+               int u = inp[a];
+               inp[a] = inp[a/2];
+               inp[a/2] = u;
+               a = a/2;
+           }
+           else{
+               break;
+           }
+       }
+}
